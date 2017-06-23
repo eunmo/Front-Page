@@ -1,0 +1,29 @@
+.App-paper-header {
+  background-color: #222;
+  color: white;
+	padding-left: 30px;
+}
+
+.App-article {
+	line-height: 20px;
+	margin-left: 20px;
+}
+
+.App-link {
+	color: gray;
+	text-decoration: none;
+}
+
+.App-link:visited {
+	color: lightgray;
+}
+
+@media screen and (max-width: 543px) {
+	.App-link {
+		display: inline-block;
+		width: 350px;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+}
