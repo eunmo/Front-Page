@@ -1,3 +1,18 @@
+.App {
+	display: -webkit-flex;
+	display: flex;
+}
+
+.App-side {
+	-webkit-flex: 1;
+	flex: 1;
+}
+
+.App-header {
+	text-align: center;
+	cursor: pointer;
+}
+
 .App-paper-header {
   background-color: #222;
   color: white;
@@ -5,6 +20,7 @@
 }
 
 .App-article {
+	height: 20px;
 	line-height: 20px;
 	margin-left: 20px;
 }
@@ -12,6 +28,14 @@
 .App-link {
 	color: gray;
 	text-decoration: none;
+	
+	display: inline-block;
+	width: 700px;
+	vertical-align: bottom;
+
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 
 .App-link:visited {
@@ -20,10 +44,6 @@
 
 @media screen and (max-width: 543px) {
 	.App-link {
-		display: inline-block;
-		width: 350px;
-		white-space: nowrap;
-		overflow: hidden;
-		text-overflow: ellipsis;
+		width: 300px;
 	}
 }

@@ -12,7 +12,6 @@ $date =~ /^(.{4})(.{2})(.{2})/;
 my $datetime = DateTime->new( year => $1, month => $2, day => $3 )
 											 ->subtract( days => 1);
 $date = $datetime->ymd('/');
-print $date, "\n";
 
 my $url = "http://www.lemonde.fr/editoriaux/";
 my $html = get("$url");
