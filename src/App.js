@@ -31,9 +31,9 @@ class App extends Component {
 				<div className="App-side"></div>
 				<div>
 				<h1 className="App-header">
-					<span onClick={() => this.moveDate(-1)}>◁  </span>
-					<span>{this.displayDate()}</span>
-					<span onClick={() => this.moveDate(1)}> ▷</span>
+					<span className="App-btn" onClick={() => this.moveDate(-1)}>◁ </span>
+					{this.displayDate()}
+					<span className="App-btn" onClick={() => this.moveDate(1)}> ▷</span>
 				</h1>
 				{papers.codes.map(code => {
 					var paper = papers[code];

@@ -27,6 +27,9 @@ module.exports = function(router, db) {
 					return;
 
 				const data = JSON.parse(stdout);
+				if (data.length === 0)
+					return;
+
 				const newPaper = {
 					name: paper,
 					date: date,
