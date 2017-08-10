@@ -13,7 +13,7 @@ my $datetime = DateTime->new( year => $1, month => $2, day => $3 )
 											 ->subtract( days => 1);
 $date = $datetime->ymd('/');
 
-my $url = "http://www.lemonde.fr/editoriaux/";
+my $url = "http://www.lemonde.fr/editoriaux";
 my $html = get("$url");
 my $dom = Mojo::DOM->new($html);
 
@@ -23,7 +23,7 @@ my $count = 0;
 for my $h3 ($dom->find('article')->each) {
 	my $a = $h3->find('a')->first;
 	my $href = $a->attr('href');
-	my $title = $a->all_text;
+	my $title = $a->text;
 	next unless $href =~ $date;
 
 	$json .= "," if $count++;
