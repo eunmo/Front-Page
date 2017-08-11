@@ -20,14 +20,33 @@ my $dom = Mojo::DOM->new($html);
 my $json = "[";
 my $count = 0;
 
-for my $h3 ($dom->find('article')->each) {
-	my $a = $h3->find('a')->first;
+for my $article ($dom->find('article')->each) {
+	my $a = $article->find('a')->first;
 	my $href = $a->attr('href');
 	my $title = $a->text;
 	next unless $href =~ $date;
 
 	$json .= "," if $count++;
 	$json .= "{\"href\": \"$href\", \"title\": \"$title\"}";
+}
+
+if ($count == 0) {
+	$url = "http://www.lemonde.fr/idees/1.html";
+	$html = get("$url");
+	$dom = Mojo::DOM->new($html);
+
+	for my $article ($dom->find('article')->each) {
+		my $span = $article->find('span[class="nature_edito"]')->first;
+		next unless $span->text =~ 'Editorial';
+
+		my $a = $article->find('a')->first;
+		my $href = $a->attr('href');
+		my $title = $a->text;
+		next unless $href =~ $date;
+
+		$json .= "," if $count++;
+		$json .= "{\"href\": \"$href\", \"title\": \"$title\"}";
+	}
 }
 
 $json .= "]";
