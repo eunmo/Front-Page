@@ -1,16 +1,16 @@
 const papers = {
-	codes: ["asahi", "nyt", "lemonde"],
+	codes: ["joongang", "asahi", "lemonde"],
 	asahi: {
-		name: "Asahi",
+		name: "朝日新聞",
  		url: "http://www.asahi.com",
-	 },
-	nyt: {
-		name: "New York Times",
-		url: "http://www.nytimes.com",
 	 },
 	lemonde: {
 		name: "Le Monde",
 		url: "http://www.lemonde.fr",
+	},
+	joongang: {
+		name: "중앙일보",
+		url: "http://news.naver.com",
 	}
 };
 
