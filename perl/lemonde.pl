@@ -21,6 +21,9 @@ my $json = "[";
 my $count = 0;
 
 for my $article ($dom->find('article')->each) {
+	my $h3 = $article->find('h3')->first;
+	next if $h3->attr('class') =~ "marqueur_restreint";
+
 	my $a = $article->find('a')->first;
 	my $href = $a->attr('href');
 	my $title = $a->text;
