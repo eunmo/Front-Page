@@ -24,9 +24,12 @@ for my $li ($ul->find('li')->each) {
 		next if $dt->attr('class') =~ "photo";
 	
 		my $a = $dt->find('a')->first;
+
 		my $href = $a->attr('href');
-		my $title = $a->all_text;
 		$href =~ s/http:\/\/news.naver.com//;
+
+		my $title = $a->all_text;
+		$title =~ s/[\'\"]/`/g;
 
 		$json .= "," if $count++;
 		$json .= "{\"href\": \"$href\", \"title\": \"$title\"}";

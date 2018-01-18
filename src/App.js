@@ -12,7 +12,7 @@ class App extends Component {
 
 		this.moveDate = this.moveDate.bind(this);
 		this.selectPapers = this.selectPapers.bind(this);
-		this.fetchPaper = this.fetchPaper.bind(this);
+		this.togglePaper = this.togglePaper.bind(this);
 	}
 
 	componentDidMount() {
@@ -44,7 +44,7 @@ class App extends Component {
 
 					return (
 						<div key={code}>
-							<h2 className="App-paper-header" onClick={() => this.fetchPaper(code)}>{paper.name}</h2>
+							<h2 className="App-paper-header" onClick={() => this.togglePaper(code)}>{paper.name}</h2>
 							{paper.list.map(article => {
 								return (
 									<div className="App-article" key={article.href}>
@@ -74,9 +74,12 @@ class App extends Component {
 		return this.state.date.toISOString().substring(0, 10).replace(/-/g,'.');
 	}
 
+	getDateUrl() {
+		return this.state.date.toISOString().substring(0, 10).replace(/-/g,'');
+	}
+
 	selectPapers() {
-		const dateString = this.state.date.toISOString().substring(0, 10).replace(/-/g,'');
-		const url = 'api/paper/select/' + dateString;
+		const url = 'api/paper/select/' + this.getDateUrl();
 		const that = this;
 		fetch(url)
 			.then(function(response) {
@@ -88,14 +91,14 @@ class App extends Component {
 		});
 	}
 
-	fetchPaper(code) {
-		const dateString = this.state.date.toISOString().substring(0, 10).replace(/-/g,'');
-		const url = 'api/paper/fetch/' + code + '/' + dateString;
+	togglePaper(code) {
+		const api = (this.state.fetched[code] === undefined) ? 'fetch' : 'clear';
+		const url = 'api/paper/' + api + '/' + code + '/' + this.getDateUrl();
 		const that = this;
 		fetch(url)
 			.then(function(response) {
 				that.selectPapers();
-			});
+		});
 	}
 
 	getMap(array) {
