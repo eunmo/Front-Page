@@ -25,14 +25,13 @@ var addRoutes = function(dir, db) {
 };
 
 var addDirs = function(db) {
-	const curDir = path.resolve('server/routes');
-	fs.readdirSync(curDir)
+	fs.readdirSync(__dirname)
 		.filter(function(dir) {
-			const dirPath = path.join(curDir, dir);
+			const dirPath = path.join(__dirname, dir);
 			return fs.lstatSync(dirPath).isDirectory();
 		})
 		.forEach(function(dir) {
-			const dirPath = path.join(curDir, dir);
+			const dirPath = path.join(__dirname, dir);
 			addRoutes(dirPath, db);
 		});
 };

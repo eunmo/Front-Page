@@ -5,7 +5,7 @@ const app = express();
 const routes = require('./routes/index');
 
 // Serve static assets
-app.use(express.static(path.resolve('build')));
+app.use(express.static(path.join(__dirname, '../build')));
 
 app.use('/', routes);
 
