@@ -15,7 +15,7 @@ module.exports = function(router, db) {
 	}
 
 	function fetchPaper(paper, date) {
-		const execStr = 'perl ' + path.resolve('perl', paper + '.pl') + ' ' + date;
+		const execStr = 'perl ' + path.join(__dirname, '../../../perl', paper + '.pl') + ' ' + date;
 
 		var stdout = '';
 		var child = exec(execStr);
