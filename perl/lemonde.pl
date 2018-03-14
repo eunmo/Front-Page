@@ -26,7 +26,7 @@ for my $article ($dom->find('article')->each) {
 
 	my $a = $article->find('a')->first;
 	my $href = $a->attr('href');
-	my $title = $a->text;
+	my $title = trim($a->text);
 	next unless $href =~ $date;
 
 	$json .= "," if $count++;
@@ -44,7 +44,7 @@ if ($count == 0) {
 
 		my $a = $article->find('a')->first;
 		my $href = $a->attr('href');
-		my $title = $a->text;
+		my $title = trim($a->text);
 		next unless $href =~ $date;
 
 		$json .= "," if $count++;
@@ -54,3 +54,10 @@ if ($count == 0) {
 
 $json .= "]";
 print $json;
+
+sub trim($)
+{
+	my $text = shift;
+	$text =~ s/^\s+|\s+$//g;
+	return $text;
+}
