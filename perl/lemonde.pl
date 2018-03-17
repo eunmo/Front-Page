@@ -39,8 +39,8 @@ if ($count == 0) {
 	$dom = Mojo::DOM->new($html);
 
 	for my $article ($dom->find('article')->each) {
-		my $span = $article->find('span[class="nature_edito"]')->first;
-		next unless $span->text =~ 'Editorial';
+		my $spans = $article->find('span[class="nature_edito"]');
+		next unless $spans->size > 0 && $spans->first->text =~ 'Editorial';
 
 		my $a = $article->find('a')->first;
 		my $href = $a->attr('href');
