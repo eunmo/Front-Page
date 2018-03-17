@@ -26,6 +26,8 @@ class App extends Component {
 	}
 
   render() {
+		let papers = this.filterPapers();
+
     return (
       <div className="App">
 				<div className="App-side"></div>
@@ -59,6 +61,21 @@ class App extends Component {
     );
   }
 
+	filterPapers() {
+		var newPapers = {codes: []};
+		var day = this.state.date.getDay();
+
+		papers.codes.forEach(code => {
+			var paper = papers[code];
+			if (paper.skip[day] !== true) {
+				newPapers.codes.push(code);
+				newPapers[code] = paper;
+			}
+		});
+
+		return newPapers;
+	}
+
 	toUTCDate(date) {
 		return new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
 	}
@@ -71,7 +88,8 @@ class App extends Component {
 	}
 
 	displayDate() {
-		return this.state.date.toISOString().substring(0, 10).replace(/-/g,'.');
+		let abbr = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+		return abbr[this.state.date.getDay()] + ' ' + this.state.date.toISOString().substring(2, 10).replace(/-/g,'.');
 	}
 
 	getDateUrl() {
