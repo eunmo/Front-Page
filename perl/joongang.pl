@@ -45,7 +45,7 @@ sub getUrl
 {
 	$date =~ /^(.{4})(.{2})(.{2})/;
 	my $day = DateTime->new( year => $1, month => $2, day => $3)->day_of_week();
-	if ($day == 7) { # joongang sunday
+	if ($day > 5) { # joongang sunday (weekend edition)
 		return "http://news.naver.com/main/list.nhn?mode=LPOD&mid=sec&oid=353&listType=paper&date=$date";
 	} else {
 		return "http://news.naver.com/main/list.nhn?mode=LPOD&mid=sec&oid=025&listType=paper&date=$date";
