@@ -26,7 +26,7 @@ for my $li ($ul->find('li')->each) {
 		my $a = $dt->find('a')->first;
 
 		my $href = $a->attr('href');
-		$href =~ s/http:\/\/news.naver.com//;
+		$href =~ s/https:\/\/news.naver.com//;
 
 		my $title = $a->all_text;
 		$title =~ s/[\'\"]/`/g;
