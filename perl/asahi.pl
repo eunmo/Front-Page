@@ -14,7 +14,7 @@ my $dom = Mojo::DOM->new($html);
 
 my $json = "[";
 my $count = 0;
-my $topic = "";
+my @topics;
 
 for my $li ($dom->find('div[id="page1"] li')->each) {
 	my $class = $li->attr('class');
@@ -25,15 +25,16 @@ for my $li ($dom->find('div[id="page1"] li')->each) {
 	my $title = $a->all_text;
 	next if $title =~ '^折々のことば';
 
-	if ($title =~ '（(.*)）' && $title !~ '天声人語') {
-		$topic = $1;
+	if ($title =~ '（(.*)）' && $title !~ '天声人語' && $title !~ '第１００回全国高校野球') {
+		push @topics, $1;
 	}
 
 	$json .= "," if $count++;
 	$json .= "{\"href\": \"$href\", \"title\": \"$title\"}";
 }
 
-if ($topic ne "") {
+foreach my $topic (@topics) {
+	#if ($topic ne "") {
 	for my $div ($dom->find('div[id^="page"]')->each) {
 		next if $div->attr('id') eq 'page1';
 		for my $li ($div->find('li')->each) {
@@ -46,7 +47,7 @@ if ($topic ne "") {
 			my $a = $as->first;
 			my $href = $a->attr('href');
 			my $title = $a->all_text;
-			next if $title !~ "$topic";
+			next if $title !~ "（$topic）";
 
 			$json .= "," if $count++;
 			$json .= "{\"href\": \"$href\", \"title\": \"$title\"}";
