@@ -29,6 +29,9 @@ for my $article ($dom->find('article')->each) {
 	my $title = trim($a->text);
 	next unless $href =~ $date;
 
+	my $text = trim($article->find('p')->first->text);
+	next unless $text =~ /^Editorial/;
+
 	$json .= "," if $count++;
 	$json .= "{\"href\": \"$href\", \"title\": \"$title\"}";
 }

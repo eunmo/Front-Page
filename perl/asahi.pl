@@ -26,7 +26,9 @@ for my $li ($dom->find('div[id="page1"] li')->each) {
 	next if $title =~ '^折々のことば';
 
 	if ($title =~ '（(.*)）' && $title !~ '天声人語' && $title !~ '第１００回全国高校野球') {
-		push @topics, $1;
+		my $topic = $1;
+		$topic =~ s/：.*//;
+		push @topics, $topic;
 	}
 
 	$json .= "," if $count++;
