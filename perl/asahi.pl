@@ -24,6 +24,7 @@ for my $li ($dom->find('div[id="page1"] li')->each) {
 	my $href = $a->attr('href');
 	my $title = $a->all_text;
 	next if $title =~ '^折々のことば';
+	next if $title =~ '^（しつもん！ドラえもん';
 
 	if ($title =~ '（(.*)）' && $title !~ '天声人語' && $title !~ '第１００回全国高校野球') {
 		my $topic = $1;
