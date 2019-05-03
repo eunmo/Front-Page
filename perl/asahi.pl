@@ -50,7 +50,7 @@ foreach my $topic (@topics) {
 			my $a = $as->first;
 			my $href = $a->attr('href');
 			my $title = $a->all_text;
-			next if $title !~ "（$topic）";
+			next if $title !~ "（$topic(）|：)";
 
 			$json .= "," if $count++;
 			$json .= "{\"href\": \"$href\", \"title\": \"$title\"}";
