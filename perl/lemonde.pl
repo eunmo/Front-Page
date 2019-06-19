@@ -20,7 +20,7 @@ my $dom = Mojo::DOM->new($html);
 my $json = "[";
 my $count = 0;
 
-for my $article ($dom->find('article')->each) {
+for my $article ($dom->find('section[class*="teaser"]')->each) {
 	my $h3 = $article->find('h3')->first;
 	next if $h3->attr('class') =~ "marqueur_restreint";
 
@@ -36,23 +36,9 @@ for my $article ($dom->find('article')->each) {
 	$json .= "{\"href\": \"$href\", \"title\": \"$title\"}";
 }
 
-if ($count == 0) {
-	$url = "http://www.lemonde.fr/idees/1.html";
-	$html = get("$url");
-	$dom = Mojo::DOM->new($html);
-
-	for my $article ($dom->find('article')->each) {
-		my $spans = $article->find('span[class="nature_edito"]');
-		next unless $spans->size > 0 && $spans->first->text =~ 'Editorial';
-
-		my $a = $article->find('a')->first;
-		my $href = $a->attr('href');
-		my $title = trim($a->text);
-		next unless $href =~ $date;
-
-		$json .= "," if $count++;
-		$json .= "{\"href\": \"$href\", \"title\": \"$title\"}";
-	}
+my $index = 1;
+while ($count == 0 && $index < 3) {
+	searchFallback($index++);
 }
 
 $json .= "]";
@@ -63,4 +49,26 @@ sub trim($)
 	my $text = shift;
 	$text =~ s/^\s+|\s+$//g;
 	return $text;
+}
+
+sub searchFallback($)
+{
+	my $index = shift;
+	$url = "http://www.lemonde.fr/idees/$index.html";
+	$html = get("$url");
+	$dom = Mojo::DOM->new($html);
+
+	for my $article ($dom->find('article')->each) {
+		my $spans = $article->find('span[class="nature_edito"]');
+		next unless $spans->size > 0 && $spans->first->text =~ 'Editorial';
+
+
+		my $a = $article->find('a')->first;
+		my $href = $a->attr('href');
+		my $title = trim($a->text);
+		next unless $href =~ $date;
+
+		$json .= "," if $count++;
+		$json .= "{\"href\": \"$href\", \"title\": \"$title\"}";
+	}
 }
