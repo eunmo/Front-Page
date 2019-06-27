@@ -1,52 +1,52 @@
 .App {
-	display: -webkit-flex;
-	display: flex;
+  display: -webkit-flex;
+  display: flex;
 }
 
 .App-side {
-	-webkit-flex: 1;
-	flex: 1;
+  -webkit-flex: 1;
+  flex: 1;
 }
 
 .App-header {
-	text-align: center;
+  text-align: center;
 }
 
 .App-btn {
-	cursor: pointer;
+  cursor: pointer;
 }
 
 .App-paper-header {
   background-color: #222;
   color: white;
-	padding-left: 30px;
+  padding-left: 30px;
 }
 
 .App-article {
-	height: 20px;
-	line-height: 20px;
-	margin-left: 20px;
+  height: 20px;
+  line-height: 20px;
+  margin-left: 20px;
 }
 
 .App-link {
-	color: gray;
-	text-decoration: none;
-	
-	display: inline-block;
-	width: 700px;
-	vertical-align: bottom;
+  color: gray;
+  text-decoration: none;
 
-	white-space: nowrap;
-	overflow: hidden;
-	text-overflow: ellipsis;
+  display: inline-block;
+  width: 700px;
+  vertical-align: bottom;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .App-link:visited {
-	color: lightgray;
+  color: lightgray;
 }
 
 @media screen and (max-width: 543px) {
-	.App-link {
-		width: 300px;
-	}
+  .App-link {
+    width: 300px;
+  }
 }

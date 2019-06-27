@@ -25,12 +25,13 @@ for my $article ($dom->find('section[class*="teaser"]')->each) {
 	next if $h3->attr('class') =~ "marqueur_restreint";
 
 	my $a = $article->find('a')->first;
-	my $href = $a->attr('href');
+	my $href = trimLink($a->attr('href'));
 	my $title = trim($a->text);
 	next unless $href =~ $date;
 
 	my $text = trim($article->find('p')->first->text);
 	next unless $text =~ /^Editorial/;
+
 
 	$json .= "," if $count++;
 	$json .= "{\"href\": \"$href\", \"title\": \"$title\"}";
@@ -64,11 +65,18 @@ sub searchFallback($)
 
 
 		my $a = $article->find('a')->first;
-		my $href = $a->attr('href');
+		my $href = trimLink($a->attr('href'));
 		my $title = trim($a->text);
 		next unless $href =~ $date;
 
 		$json .= "," if $count++;
 		$json .= "{\"href\": \"$href\", \"title\": \"$title\"}";
 	}
+}
+
+sub trimLink($)
+{
+	my $link = shift;
+	$link =~ s/^.*lemonde\.fr//;
+	return $link;
 }
