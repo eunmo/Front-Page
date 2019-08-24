@@ -1,5 +1,10 @@
 const papers = {
-  codes: ['asahi', 'lemonde'],
+  codes: ['chosun', 'asahi', 'lemonde'],
+  chosun: {
+    name: '조선일보',
+    url: 'http://news.naver.com',
+    skip: { 0: true }
+  },
   asahi: {
     name: '朝日新聞',
     url: 'http://www.asahi.com',
