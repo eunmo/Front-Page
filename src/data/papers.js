@@ -2,7 +2,7 @@ const papers = {
   codes: ['chosun', 'asahi', 'lemonde'],
   chosun: {
     name: '조선일보',
-    url: 'http://news.naver.com',
+    url: 'http://m.news.naver.com',
     skip: { 0: true }
   },
   asahi: {
