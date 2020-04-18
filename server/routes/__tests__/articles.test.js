@@ -46,31 +46,46 @@ const expected = {
       '（天声人語）一犯一語',
     ],
   },
+  lemonde: {
+    hrefs: [
+      'https://www.lemonde.fr/idees/article/2020/04/17/le-grand-age-un-enjeu-prioritaire_6036901_3232.html',
+    ],
+    titles: [
+      'Le grand âge, un enjeu prioritaire',
+    ],
+  },
 };
 const asahiData = fs.readFileSync(path.join(__dirname, 'asahi-20200418.html'));
+const lemondeData = fs.readFileSync(path.join(__dirname, 'lemonde-20200418.html'));
+const data = {
+  asahi: asahiData,
+  lemonde: lemondeData,
+};
 
-test('fetch asashi', async () => {
-  fetch.mockReturnValue(Promise.resolve(new Response(asahiData)));
+const papers = [ 'asahi', 'lemonde' ];
 
-  const url = `/api/fetch/asahi/${fixedDate}`;
+test.each(papers)('fetch %s', async (paper) => {
+  fetch.mockReturnValue(Promise.resolve(new Response(data[paper])));
+
+  const url = `/api/fetch/${paper}/${fixedDate}`;
   const response = await request(app).get(url);
   expect(response.statusCode).toBe(200);
 
   const { body } = response;
-  expect(body.length).toBe(4);
+  expect(body.length).toBe(expected[paper].hrefs.length);
 
   body.forEach((article, index) => {
     expect(article.published).toBe(fixedDate);
-    expect(article.paper).toBe('asahi');
-    expect(article.href).toBe(expected.asahi.hrefs[index]);
-    expect(article.title).toBe(expected.asahi.titles[index]);
+    expect(article.paper).toBe(paper);
+    expect(article.href).toBe(expected[paper].hrefs[index]);
+    expect(article.title).toBe(expected[paper].titles[index]);
   });
 });
 
-test('fetch then select', async () => {
-  fetch.mockReturnValue(Promise.resolve(new Response(asahiData)));
+test.each(papers)('fetch then select %s', async (paper) => {
+  fetch.mockReturnValue(Promise.resolve(new Response(data[paper])));
 
-  let url = `/api/fetch/asahi/${fixedDate}`;
+  let url = `/api/fetch/${paper}/${fixedDate}`;
   let response = await request(app).get(url);
   expect(response.statusCode).toBe(200);
 
@@ -79,24 +94,24 @@ test('fetch then select', async () => {
   expect(response.statusCode).toBe(200);
 
   const { body } = response;
-  expect(body.length).toBe(4);
+  expect(body.length).toBe(expected[paper].hrefs.length);
 
   body.forEach((article, index) => {
     expect(article.published).toBe(fixedDate);
-    expect(article.paper).toBe('asahi');
-    expect(article.href).toBe(expected.asahi.hrefs[index]);
-    expect(article.title).toBe(expected.asahi.titles[index]);
+    expect(article.paper).toBe(paper);
+    expect(article.href).toBe(expected[paper].hrefs[index]);
+    expect(article.title).toBe(expected[paper].titles[index]);
   });
 });
 
-test('fetch then clear', async () => {
-  fetch.mockReturnValue(Promise.resolve(new Response(asahiData)));
+test.each(papers)('fetch then clear %s', async (paper) => {
+  fetch.mockReturnValue(Promise.resolve(new Response(data[paper])));
 
-  let url = `/api/fetch/asahi/${fixedDate}`;
+  let url = `/api/fetch/${paper}/${fixedDate}`;
   let response = await request(app).get(url);
   expect(response.statusCode).toBe(200);
 
-  url = `/api/clear/asahi/${fixedDate}`;
+  url = `/api/clear/${paper}/${fixedDate}`;
   response = await request(app).get(url);
   expect(response.statusCode).toBe(200);
 
