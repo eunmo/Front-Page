@@ -96,7 +96,7 @@ test('fetch then clear', async () => {
   let response = await request(app).get(url);
   expect(response.statusCode).toBe(200);
 
-  url = `/api/clear/${fixedDate}`;
+  url = `/api/clear/asahi/${fixedDate}`;
   response = await request(app).get(url);
   expect(response.statusCode).toBe(200);
 

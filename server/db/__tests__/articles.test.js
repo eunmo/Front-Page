@@ -42,11 +42,11 @@ test.each([1, 10])('clears %d', async (count) => {
   let rows = await query('SELECT * FROM articles');
   expect(rows.length).toBe(count);
 
-  await clear('20200202');
+  await clear(paper, '20200202');
   rows = await query('SELECT * FROM articles');
   expect(rows.length).toBe(count);
 
-  await clear(oldDate);
+  await clear(paper, oldDate);
   rows = await query('SELECT * FROM articles');
   expect(rows.length).toBe(0);
 });

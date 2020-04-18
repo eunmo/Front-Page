@@ -10,10 +10,11 @@ const add = (articles) => {
     VALUES ${values.join(',')}`);
 };
 
-const clear = (targetDate) => {
+const clear = (paper, targetDate) => {
   return dml(`
     DELETE FROM articles
-          WHERE published='${targetDate}'`);
+          WHERE published='${targetDate}'
+            AND paper='${paper}'`);
 };
 
 const get = (targetDate) => {
