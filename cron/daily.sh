@@ -1,7 +1,7 @@
 #!/bin/bash
 date=`date +%Y%m%d`
-for paper in chosun asahi lemonde
+for paper in asahi lemonde
 do
-  curl --silent --output /dev/null "localhost:3060/api/paper/clear/$paper/$date"
-  curl --silent --output /dev/null "localhost:3060/api/paper/fetch/$paper/$date"
+  curl --silent --output /dev/null "localhost:3060/api/clear/$paper/$date"
+  curl --silent --output /dev/null "localhost:3060/api/fetch/$paper/$date"
 done
