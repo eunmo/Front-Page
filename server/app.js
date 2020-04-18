@@ -2,7 +2,7 @@ const express = require('express');
 const path = require('path');
 
 const app = express();
-const routes = require('./routes/index');
+const routes = require('./routes')();
 
 // Serve static assets
 app.use(express.static(path.join(__dirname, '../build')));

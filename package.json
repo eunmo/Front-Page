@@ -2,37 +2,69 @@
   "name": "front_page",
   "version": "0.1.0",
   "private": true,
-  "devDependencies": {
-    "react-scripts": "3.0.1"
-  },
   "dependencies": {
-    "bluebird": "^3.5.5",
+    "@testing-library/jest-dom": "^5.5.0",
+    "@testing-library/react": "^10.0.2",
+    "@testing-library/user-event": "^10.0.2",
     "express": "^4.17.1",
-    "husky": "^3.0.0",
-    "lint-staged": "^9.2.0",
-    "mongodb": "^3.2.7",
-    "prettier": "^1.18.2",
-    "react": "^16.8.6",
-    "react-dom": "^16.8.6"
+    "jsdom": "^16.2.2",
+    "mysql": "^2.18.1",
+    "node-fetch": "^2.6.0",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-scripts": "3.4.1"
   },
-  "lint-staged": {
-    "{server,src}/**/*.{js,jsx,ts,tsx,json,css,scss,md}": [
-      "prettier --single-quote --write",
-      "git add"
-    ]
+  "devDependencies": {
+    "eslint-config-airbnb": "^18.1.0",
+    "eslint-config-prettier": "^6.10.1",
+    "eslint-plugin-prettier": "^3.1.3",
+    "eslint-plugin-react-hooks": "^3.0.0",
+    "husky": "^4.2.5",
+    "lint-staged": "^10.1.5",
+    "prettier": "^2.0.4",
+    "supertest": "^4.0.2"
   },
   "scripts": {
-    "start": "PORT=3061 react-scripts start",
+    "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "lint": "eslint --fix \"src/**/*.{js,jsx}\" \"server/**/*.js\"",
+    "test:server": "jest server -w 1 --watch --only-changed"
   },
   "proxy": "http://localhost:3060",
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "airbnb",
+      "plugin:prettier/recommended"
+    ],
+    "plugins": [
+      "react-hooks"
+    ],
+    "rules": {
+      "prettier/prettier": [
+        "error",
+        {
+          "singleQuote": true,
+          "parser": "flow"
+        }
+      ],
+      "react/jsx-filename-extension": [
+        1,
+        {
+          "extensions": [
+            ".test.js",
+            ".jsx"
+          ]
+        }
+      ]
+    },
+    "env": {
+      "browser": true,
+      "es6": true
+    }
+  },
   "browserslist": {
     "production": [
       ">0.2%",
@@ -43,6 +75,19 @@
       "last 1 chrome version",
       "last 1 firefox version",
       "last 1 safari version"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{json,css}": [
+      "prettier --single-quote --write"
+    ],
+    "*.{js,jsx}": [
+      "eslint --fix"
     ]
   }
 }

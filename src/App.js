@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import React, { Component } from 'react';
 import './App.css';
 
@@ -25,11 +27,11 @@ class App extends Component {
   }
 
   render() {
-    let papers = this.filterPapers();
+    const papers = this.filterPapers();
 
     return (
       <div className="App">
-        <div className="App-side"></div>
+        <div className="App-side" />
         <div>
           <h1 className="App-header">
             <span className="App-btn" onClick={() => this.moveDate(-1)}>
@@ -41,8 +43,8 @@ class App extends Component {
               ▷
             </span>
           </h1>
-          {papers.codes.map(code => {
-            var paper = papers[code];
+          {papers.codes.map((code) => {
+            const paper = papers[code];
             paper.list = this.state.fetched[code];
 
             if (paper.list === undefined) paper.list = [];
@@ -55,7 +57,7 @@ class App extends Component {
                 >
                   {paper.name}
                 </h2>
-                {paper.list.map(article => {
+                {paper.list.map((article) => {
                   return (
                     <div className="App-article" key={article.href}>
                       ■{' '}
@@ -69,17 +71,17 @@ class App extends Component {
             );
           })}
         </div>
-        <div className="App-side"></div>
+        <div className="App-side" />
       </div>
     );
   }
 
   filterPapers() {
-    var newPapers = { codes: [] };
-    var day = this.state.date.getDay();
+    const newPapers = { codes: [] };
+    const day = this.state.date.getDay();
 
-    papers.codes.forEach(code => {
-      var paper = papers[code];
+    papers.codes.forEach((code) => {
+      const paper = papers[code];
       if (paper.skip[day] !== true) {
         newPapers.codes.push(code);
         newPapers[code] = paper;
@@ -96,58 +98,50 @@ class App extends Component {
   }
 
   moveDate(diff) {
-    var date = this.toUTCDate(this.state.date);
+    const date = this.toUTCDate(this.state.date);
     date.setDate(date.getDate() + diff);
 
-    this.setState({ date: date });
+    this.setState({ date });
   }
 
   displayDate() {
-    let abbr = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-    return (
-      abbr[this.state.date.getDay()] +
-      ' ' +
-      this.state.date
-        .toISOString()
-        .substring(2, 10)
-        .replace(/-/g, '.')
-    );
+    const abbr = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+    return `${
+      abbr[this.state.date.getDay()]
+    } ${this.state.date.toISOString().substring(2, 10).replace(/-/g, '.')}`;
   }
 
   getDateUrl() {
-    return this.state.date
-      .toISOString()
-      .substring(0, 10)
-      .replace(/-/g, '');
+    return this.state.date.toISOString().substring(0, 10).replace(/-/g, '');
   }
 
   selectPapers() {
-    const url = 'api/paper/select/' + this.getDateUrl();
+    const url = `api/paper/select/${this.getDateUrl()}`;
     const that = this;
     fetch(url)
-      .then(function(response) {
+      .then(function (response) {
         return response.json();
       })
-      .then(function(data) {
+      .then(function (data) {
         const fetched = that.getMap(data);
-        that.setState({ fetched: fetched });
+        that.setState({ fetched });
       });
   }
 
   togglePaper(code) {
     const api = this.state.fetched[code] === undefined ? 'fetch' : 'clear';
-    const url = 'api/paper/' + api + '/' + code + '/' + this.getDateUrl();
+    const url = `api/paper/${api}/${code}/${this.getDateUrl()}`;
     const that = this;
-    fetch(url).then(function(response) {
+    fetch(url).then(function (response) {
       that.selectPapers();
     });
   }
 
   getMap(array) {
-    var map = {};
-    var paper;
+    const map = {};
+    let paper;
 
-    for (var i = 0; i < array.length; i++) {
+    for (let i = 0; i < array.length; i++) {
       paper = array[i];
       map[paper.name] = paper.list;
     }
