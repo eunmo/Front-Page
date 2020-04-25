@@ -30,39 +30,43 @@ beforeEach(async () => {
   await dml('TRUNCATE TABLE articles;');
 });
 
-const fixedDate = '20200418';
+const fixedDate = '20200424';
 const expected = {
   asahi: {
     hrefs: [
-      'http://www.asahi.com/articles/DA3S14446226.html',
-      'http://www.asahi.com/articles/DA3S14446224.html',
-      'http://www.asahi.com/articles/DA3S14446225.html',
-      'http://www.asahi.com/articles/DA3S14446223.html',
+      'http://www.asahi.com/articles/DA3S14453801.html',
+      'http://www.asahi.com/articles/DA3S14453808.html',
+      'http://www.asahi.com/articles/DA3S14453805.html',
+      'http://www.asahi.com/articles/DA3S14453807.html',
+      'http://www.asahi.com/articles/DA3S14453799.html',
     ],
     titles: [
-      '重症者ら対応、診療報酬倍増　１０万円、郵送・オンライン手続き　首相会見　新型コロナ',
-      '中国ＧＤＰ、初のマイナス　６．８％減、コロナ影響　１～３月',
-      '休業対策で道場開放　神奈川県、漫喫など利用者向け',
-      '（天声人語）一犯一語',
+      '軽症者療養、宿泊施設で　自宅より優先に転換　厚労省　新型コロナ',
+      'スーパー入店、政府「制限を」　混雑回避、知事に要請　新型コロナ',
+      '景気判断「急速に悪化」　リーマン後以来　４月・月例経済報告',
+      '湘南、立ち入り控えて　海岸に看板設置　新型コロナ',
+      '（天声人語）金正恩氏の健康状態',
     ],
   },
   lemonde: {
     hrefs: [
-      'https://www.lemonde.fr/idees/article/2020/04/17/le-grand-age-un-enjeu-prioritaire_6036901_3232.html',
+      'https://www.lemonde.fr/idees/article/2020/04/23/coronavirus-le-modele-francais-a-l-epreuve-du-deconfinement_6037531_3232.html',
     ],
-    titles: [
-      'Le grand âge, un enjeu prioritaire',
-    ],
+    titles: ['Coronavirus : le modèle français à l’épreuve du déconfinement'],
   },
 };
-const asahiData = fs.readFileSync(path.join(__dirname, 'asahi-20200418.html'));
-const lemondeData = fs.readFileSync(path.join(__dirname, 'lemonde-20200418.html'));
+const asahiData = fs.readFileSync(
+  path.join(__dirname, `asahi-${fixedDate}.html`)
+);
+const lemondeData = fs.readFileSync(
+  path.join(__dirname, `lemonde-${fixedDate}.html`)
+);
 const data = {
   asahi: asahiData,
   lemonde: lemondeData,
 };
 
-const papers = [ 'asahi', 'lemonde' ];
+const papers = ['asahi', 'lemonde'];
 
 test.each(papers)('fetch %s', async (paper) => {
   fetch.mockReturnValue(Promise.resolve(new Response(data[paper])));
