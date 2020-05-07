@@ -45,7 +45,7 @@ const fetchLeMonde = async (date) => {
   const year = date.substr(0, 4);
   const month = date.substr(4, 2);
   const day = date.substr(6, 2);
-  let targetDate = new Date(Date.UTC(year, month - 1, day - 1))
+  let targetDate = new Date(Date.UTC(year, month - 1, day - 1));
   targetDate = targetDate.toISOString().substring(0, 10).replace(/-/g, '/');
 
   doc.querySelectorAll('section[class*="teaser"]').forEach((section) => {

@@ -2,22 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './App.css';
 
 import papers from './papers';
-
-const get = (url, callback) => {
-  fetch(url)
-    .then((response) => response.json())
-    .then(callback);
-};
-
-const toUTCDate = (date) => {
-  return new Date(
-    Date.UTC(date.getFullYear(), date.getMonth(), date.getDate())
-  );
-};
-
-const getDateUrl = (date) => {
-  return date.toISOString().substring(0, 10).replace(/-/g, '');
-};
+import { get, toUTCDate, getDateUrl } from './utils';
 
 export default () => {
   const [date, setDate] = useState(toUTCDate(new Date()));
@@ -66,7 +51,7 @@ export default () => {
 
   const toggle = (code) => {
     const api = articles[code] === undefined ? 'fetch' : 'clear';
-    const url = `api/${api}/${code}/${getDateUrl(date)}`;
+    const url = `/api/${api}/${code}/${getDateUrl(date)}`;
     fetch(url).then(() => {
       setDate(new Date(date));
     });
