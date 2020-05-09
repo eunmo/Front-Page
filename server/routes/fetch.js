@@ -64,23 +64,18 @@ const fetchLeMonde = async (date) => {
   return articles;
 };
 
+const fetchFunctions = {
+  asahi: fetchAsahi,
+  lemonde: fetchLeMonde,
+};
+
 module.exports = (router) => {
   router.get('/api/fetch/:paper/:date', async (req, res) => {
     const { paper, date } = req.params;
-    let articles = [];
+    const articles = (await fetchFunctions[paper]?.(date)) ?? [];
 
-    if (paper === 'asahi') {
-      articles = await fetchAsahi(date);
-      if (articles.length > 0) {
-        await add(articles);
-      }
-    }
-
-    if (paper === 'lemonde') {
-      articles = await fetchLeMonde(date);
-      if (articles.length > 0) {
-        await add(articles);
-      }
+    if (articles.length > 0) {
+      await add(articles);
     }
 
     res.json(articles);

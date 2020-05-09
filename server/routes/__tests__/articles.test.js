@@ -87,6 +87,15 @@ test.each(papers)('fetch %s', async (paper) => {
   });
 });
 
+test('fetch mock', async () => {
+  const url = `/api/fetch/mock/${fixedDate}`;
+  const response = await request(app).get(url);
+  expect(response.statusCode).toBe(200);
+
+  const { body } = response;
+  expect(body.length).toBe(0);
+});
+
 test.each(papers)('fetch then select %s', async (paper) => {
   fetch.mockReturnValue(Promise.resolve(new Response(data[paper])));
 
