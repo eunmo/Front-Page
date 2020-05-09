@@ -9,6 +9,8 @@ let container = null;
 let mockResponse = null;
 let calledUrls = null;
 
+jest.mock('./papers');
+
 beforeEach(() => {
   container = document.createElement('div');
   document.body.appendChild(container);
@@ -22,14 +24,13 @@ beforeEach(() => {
       json: () => Promise.resolve(mockResponse),
     });
   });
+  papers.reset();
 });
 
 afterEach(() => {
   unmountComponentAtNode(container);
   container.remove();
   container = null;
-
-  jest.clearAllMocks();
 });
 
 const today = toUTCDate(new Date());
@@ -137,4 +138,25 @@ test.each([
 
   const urls = [`/api/select/${todayUrl}`, `/api/select/${url}`];
   expect(calledUrls).toStrictEqual(urls);
+});
+
+test('skip', async () => {
+  papers.lemonde.skip = {
+    0: true,
+    1: true,
+    2: true,
+    3: true,
+    4: true,
+    5: true,
+    6: true,
+  };
+  await renderApp();
+  expect(document.querySelectorAll('.App-paper-header').length).toBe(1);
+});
+
+test('no skip', async () => {
+  jest.doMock('./papers');
+  papers.lemonde.skip = {};
+  await renderApp();
+  expect(document.querySelectorAll('.App-paper-header').length).toBe(2);
 });

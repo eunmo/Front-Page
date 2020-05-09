@@ -7,33 +7,21 @@ import { get, toUTCDate, getDateUrl } from './utils';
 export default () => {
   const [date, setDate] = useState(toUTCDate(new Date()));
   const [articles, setArticles] = useState({});
-  const [filteredPapers, setFilteredPapers] = useState({ codes: [] });
+  const [codes, setCodes] = useState([]);
 
   useEffect(() => {
     const url = `/api/select/${getDateUrl(date)}`;
     get(url, (res) => {
-      const map = {};
-      res.forEach((article) => {
-        if (map[article.paper] === undefined) {
-          map[article.paper] = [];
-        }
-        map[article.paper].push(article);
-      });
+      const map = res.reduce(
+        (m, a) => Object.assign(m, { [a.paper]: (m[a.paper] ?? []).concat(a) }),
+        {}
+      );
       setArticles(map);
     });
 
-    const newPapers = { codes: [] };
     const day = date.getDay();
-
-    papers.codes.forEach((code) => {
-      const paper = papers[code];
-      if (paper.skip[day] !== true) {
-        newPapers.codes.push(code);
-        newPapers[code] = paper;
-      }
-    });
-
-    setFilteredPapers(newPapers);
+    const dayCodes = papers.codes.filter((c) => !papers[c].skip[day]);
+    setCodes(dayCodes);
   }, [date]);
 
   const displayDate = () => {
@@ -70,10 +58,10 @@ export default () => {
             {' ▷'}
           </span>
         </h1>
-        {filteredPapers.codes.map((code) => (
+        {codes.map((code) => (
           <div key={code}>
             <h2 className="App-paper-header" onClick={() => toggle(code)}>
-              {filteredPapers[code].name}
+              {papers[code].name}
             </h2>
             {articles[code] &&
               articles[code].map((article) => (
