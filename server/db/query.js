@@ -38,4 +38,16 @@ const exec = async (sql) => {
   }
 };
 
-module.exports = { dml: exec, query: exec };
+const cleanup = async () => {
+  return new Promise((resolve, reject) => {
+    pool.end((error) => {
+      if (error) {
+        reject(error);
+      } else {
+        resolve();
+      }
+    });
+  });
+};
+
+module.exports = { dml: exec, query: exec, cleanup };

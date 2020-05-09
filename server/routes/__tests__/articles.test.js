@@ -3,7 +3,7 @@ const path = require('path');
 const request = require('supertest');
 const fetch = require('node-fetch');
 const app = require('../../app');
-const { dml } = require('../../db/query');
+const { dml, cleanup } = require('../../db/query');
 
 jest.mock('node-fetch');
 const { Response } = jest.requireActual('node-fetch');
@@ -24,6 +24,7 @@ beforeAll(async () => {
 
 afterAll(async () => {
   await dml('DROP TABLE IF EXISTS articles;');
+  await cleanup();
 });
 
 beforeEach(async () => {

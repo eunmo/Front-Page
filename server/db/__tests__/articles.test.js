@@ -1,4 +1,4 @@
-const { dml, query } = require('../query.js');
+const { dml, query, cleanup } = require('../query.js');
 const { add, clear, get } = require('../articles.js');
 
 jest.mock('../db.json', () => {
@@ -17,6 +17,7 @@ beforeAll(async () => {
 
 afterAll(async () => {
   await dml('DROP TABLE IF EXISTS articles;');
+  await cleanup();
 });
 
 beforeEach(async () => {
