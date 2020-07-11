@@ -8,15 +8,6 @@ const { dml, cleanup } = require('../../db/query');
 jest.mock('node-fetch');
 const { Response } = jest.requireActual('node-fetch');
 
-jest.mock('../../db/db.json', () => {
-  return {
-    host: 'localhost',
-    user: 'news',
-    password: 'news',
-    database: 'newstest',
-  };
-});
-
 beforeAll(async () => {
   await dml('DROP TABLE IF EXISTS articles;');
   await dml('CREATE TABLE articles LIKE news.articles;');

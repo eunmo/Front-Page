@@ -1,15 +1,6 @@
 const { dml, query, cleanup } = require('../query.js');
 const { add, clear, get } = require('../articles.js');
 
-jest.mock('../db.json', () => {
-  return {
-    host: 'localhost',
-    user: 'news',
-    password: 'news',
-    database: 'newstest',
-  };
-});
-
 beforeAll(async () => {
   await dml('DROP TABLE IF EXISTS articles;');
   await dml('CREATE TABLE articles LIKE news.articles;');
