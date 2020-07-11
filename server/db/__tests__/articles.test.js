@@ -1,4 +1,4 @@
-const { dml, query, cleanup } = require('../query.js');
+const { dml, query, cleanup } = require('@eunmo/mysql');
 const { add, clear, get } = require('../articles.js');
 
 beforeAll(async () => {

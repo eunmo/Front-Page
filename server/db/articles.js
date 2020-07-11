@@ -1,4 +1,4 @@
-const { dml, query } = require('./query.js');
+const { dml, query } = require('@eunmo/mysql');
 
 const add = (articles) => {
   const values = [];

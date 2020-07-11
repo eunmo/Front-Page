@@ -1,8 +1,1 @@
-jest.mock('./db/db.json', () => {
-  return {
-    host: 'localhost',
-    user: 'news',
-    password: 'news',
-    database: 'newstest',
-  };
-});
+process.env.NODE_CONFIG = '{"dbConfig":{"database":"newstest"}}';

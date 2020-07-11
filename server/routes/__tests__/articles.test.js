@@ -2,8 +2,8 @@ const fs = require('fs');
 const path = require('path');
 const request = require('supertest');
 const fetch = require('node-fetch');
+const { dml, cleanup } = require('@eunmo/mysql');
 const app = require('../../app');
-const { dml, cleanup } = require('../../db/query');
 
 jest.mock('node-fetch');
 const { Response } = jest.requireActual('node-fetch');
