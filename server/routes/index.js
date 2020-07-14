@@ -6,9 +6,9 @@ const fetch = require('./fetch');
 const select = require('./select');
 
 const router = express.Router();
-clear(router);
-fetch(router);
-select(router);
+router.use('/api/clear/', clear);
+router.use('/api/fetch/', fetch);
+router.use('/api/select/', select);
 
 router.get('*', (req, res) => {
   res.sendFile(path.resolve('build', 'index.html'));

@@ -1,6 +1,9 @@
+const express = require('express');
 const fetch = require('node-fetch');
 const { JSDOM } = require('jsdom');
 const { add } = require('../db/articles');
+
+const router = express.Router();
 
 const getDoc = async (url) => {
   const response = await fetch(url);
@@ -69,15 +72,15 @@ const fetchFunctions = {
   lemonde: fetchLeMonde,
 };
 
-module.exports = (router) => {
-  router.get('/api/fetch/:paper/:date', async (req, res) => {
-    const { paper, date } = req.params;
-    const articles = (await fetchFunctions[paper]?.(date)) ?? [];
+router.get('/:paper/:date', async (req, res) => {
+  const { paper, date } = req.params;
+  const articles = (await fetchFunctions[paper]?.(date)) ?? [];
 
-    if (articles.length > 0) {
-      await add(articles);
-    }
+  if (articles.length > 0) {
+    await add(articles);
+  }
 
-    res.json(articles);
-  });
-};
+  res.json(articles);
+});
+
+module.exports = router;
