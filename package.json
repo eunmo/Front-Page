@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@eunmo/mysql": "^1.0.1",
+    "@eunmo/mysql": "^1.0.2",
     "express": "^4.17.1",
     "jsdom": "^16.4.0",
     "node-fetch": "^2.6.1",
@@ -13,16 +13,16 @@
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^5.11.4",
-    "@testing-library/react": "^11.0.2",
-    "@testing-library/user-event": "^12.1.4",
+    "@testing-library/react": "^11.0.4",
+    "@testing-library/user-event": "^12.1.6",
     "eslint-config-airbnb": "^18.2.0",
     "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-prettier": "^3.1.4",
-    "eslint-plugin-react-hooks": "^4.1.1",
+    "eslint-plugin-react-hooks": "^4.1.2",
     "husky": "^4.3.0",
-    "lint-staged": "^10.3.0",
-    "prettier": "^2.1.1",
-    "supertest": "^4.0.2"
+    "lint-staged": "^10.4.0",
+    "prettier": "^2.1.2",
+    "supertest": "^5.0.0"
   },
   "scripts": {
     "start": "react-scripts start",
