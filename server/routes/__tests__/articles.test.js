@@ -24,22 +24,6 @@ beforeEach(async () => {
 
 const fixedDate = '20200424';
 const expected = {
-  asahi: {
-    hrefs: [
-      'http://www.asahi.com/articles/DA3S14453801.html',
-      'http://www.asahi.com/articles/DA3S14453808.html',
-      'http://www.asahi.com/articles/DA3S14453805.html',
-      'http://www.asahi.com/articles/DA3S14453807.html',
-      'http://www.asahi.com/articles/DA3S14453799.html',
-    ],
-    titles: [
-      '軽症者療養、宿泊施設で　自宅より優先に転換　厚労省　新型コロナ',
-      'スーパー入店、政府「制限を」　混雑回避、知事に要請　新型コロナ',
-      '景気判断「急速に悪化」　リーマン後以来　４月・月例経済報告',
-      '湘南、立ち入り控えて　海岸に看板設置　新型コロナ',
-      '（天声人語）金正恩氏の健康状態',
-    ],
-  },
   lemonde: {
     hrefs: [
       'https://www.lemonde.fr/idees/article/2020/04/23/coronavirus-le-modele-francais-a-l-epreuve-du-deconfinement_6037531_3232.html',
@@ -47,18 +31,14 @@ const expected = {
     titles: ['Coronavirus : le modèle français à l’épreuve du déconfinement'],
   },
 };
-const asahiData = fs.readFileSync(
-  path.join(__dirname, `asahi-${fixedDate}.html`)
-);
 const lemondeData = fs.readFileSync(
   path.join(__dirname, `lemonde-${fixedDate}.html`)
 );
 const data = {
-  asahi: asahiData,
   lemonde: lemondeData,
 };
 
-const papers = ['asahi', 'lemonde'];
+const papers = ['lemonde'];
 
 test.each(papers)('fetch %s', async (paper) => {
   fetch.mockReturnValue(Promise.resolve(new Response(data[paper])));
