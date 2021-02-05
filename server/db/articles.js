@@ -1,4 +1,4 @@
-const { dml, insertMultiple, query } = require('@eunmo/mysql');
+const { dml, query } = require('@eunmo/mysql');
 
 const add = (articles) => {
   const values = articles.map(({ published, paper, href, title }) => [
@@ -7,7 +7,7 @@ const add = (articles) => {
     href,
     title,
   ]);
-  return insertMultiple('INSERT INTO articles VALUES ?', values);
+  return dml('INSERT INTO articles VALUES ?', [values]);
 };
 
 const clear = (paper, targetDate) => {
