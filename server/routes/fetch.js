@@ -12,34 +12,6 @@ const getDoc = async (url) => {
   return dom.window.document;
 };
 
-const fetchAsahi = async (date) => {
-  const paper = 'asahi';
-  const url = `http://www.asahi.com/shimen/${date}/index_tokyo_list.html`;
-  const doc = await getDoc(url);
-  const articles = [];
-
-  doc.querySelectorAll('div[id="page1"] li').forEach((li) => {
-    const { className } = li;
-
-    if (className === 'HeadlineImage') {
-      return;
-    }
-
-    const { href, textContent: title } = li.querySelector('a');
-
-    if (
-      title.startsWith('折々のことば') ||
-      title.startsWith('（しつもん！ドラえもん')
-    ) {
-      return;
-    }
-
-    articles.push({ published: date, paper, href, title });
-  });
-
-  return articles;
-};
-
 const fetchLeMonde = async (date) => {
   const paper = 'lemonde';
   const url = 'http://www.lemonde.fr/editoriaux';
@@ -68,7 +40,6 @@ const fetchLeMonde = async (date) => {
 };
 
 const fetchFunctions = {
-  asahi: fetchAsahi,
   lemonde: fetchLeMonde,
 };
 
