@@ -151,12 +151,12 @@ test('skip', async () => {
     6: true,
   };
   await renderApp();
-  expect(document.querySelectorAll('.App-paper-header').length).toBe(1);
+  expect(document.querySelectorAll('.App-paper-header').length).toBe(0);
 });
 
 test('no skip', async () => {
   jest.doMock('./papers');
   papers.lemonde.skip = {};
   await renderApp();
-  expect(document.querySelectorAll('.App-paper-header').length).toBe(2);
+  expect(document.querySelectorAll('.App-paper-header').length).toBe(1);
 });
