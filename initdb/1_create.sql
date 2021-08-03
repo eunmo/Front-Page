@@ -1,4 +1,6 @@
-DROP TABLE articles;
+USE news;
+
+DROP TABLE IF EXISTS articles;
 
 CREATE TABLE articles (
   published VARCHAR(255),

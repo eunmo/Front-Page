@@ -1,13 +1,7 @@
 const { dml, query, cleanup } = require('@eunmo/mysql');
 const { add, clear, get } = require('../articles.js');
 
-beforeAll(async () => {
-  await dml('DROP TABLE IF EXISTS articles;');
-  await dml('CREATE TABLE articles LIKE news.articles;');
-});
-
 afterAll(async () => {
-  await dml('DROP TABLE IF EXISTS articles;');
   await cleanup();
 });
 

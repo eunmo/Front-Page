@@ -8,13 +8,7 @@ const app = require('../../app');
 jest.mock('node-fetch');
 const { Response } = jest.requireActual('node-fetch');
 
-beforeAll(async () => {
-  await dml('DROP TABLE IF EXISTS articles;');
-  await dml('CREATE TABLE articles LIKE news.articles;');
-});
-
 afterAll(async () => {
-  await dml('DROP TABLE IF EXISTS articles;');
   await cleanup();
 });
 
