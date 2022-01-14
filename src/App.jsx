@@ -4,7 +4,7 @@ import './App.css';
 import papers from './papers';
 import { get, toUTCDate, getDateUrl } from './utils';
 
-export default () => {
+export default function App() {
   const [date, setDate] = useState(toUTCDate(new Date()));
   const [articles, setArticles] = useState({});
   const [codes, setCodes] = useState([]);
@@ -78,4 +78,4 @@ export default () => {
       <div className="App-side" />
     </div>
   );
-};
+}

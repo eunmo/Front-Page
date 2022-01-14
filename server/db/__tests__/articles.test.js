@@ -1,5 +1,5 @@
 const { dml, query, cleanup } = require('@eunmo/mysql');
-const { add, clear, get } = require('../articles.js');
+const { add, clear, get } = require('../articles');
 
 afterAll(async () => {
   await cleanup();
