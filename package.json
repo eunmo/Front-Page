@@ -52,7 +52,8 @@
           "singleQuote": true,
           "parser": "flow"
         }
-      ]
+      ],
+      "react/react-in-jsx-scope": "off"
     },
     "env": {
       "browser": true,
