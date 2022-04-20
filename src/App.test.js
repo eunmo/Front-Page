@@ -1,19 +1,14 @@
-import { render, unmountComponentAtNode } from 'react-dom';
-import { act } from 'react-dom/test-utils';
+import { act, render, fireEvent, screen } from '@testing-library/react';
 import App from './App';
 import papers from './papers';
 import { toUTCDate, getDateUrl } from './utils';
 
-let container = null;
 let mockResponse = null;
 let calledUrls = null;
 
 jest.mock('./papers');
 
 beforeEach(() => {
-  container = document.createElement('div');
-  document.body.appendChild(container);
-
   mockResponse = null;
   calledUrls = [];
   jest.spyOn(global, 'fetch').mockImplementation((url) => {
@@ -24,12 +19,6 @@ beforeEach(() => {
     });
   });
   papers.reset();
-});
-
-afterEach(() => {
-  unmountComponentAtNode(container);
-  container.remove();
-  container = null;
 });
 
 const today = toUTCDate(new Date());
@@ -46,14 +35,14 @@ papers.codes.forEach((code) => {
     published: todayUrl,
     paper: code,
     href: code,
-    title: code,
+    title: `${code}_title`,
   });
 });
 
-const renderApp = async () => {
-  mockResponse = selectResponse;
+const renderApp = async (response = selectResponse) => {
+  mockResponse = response;
   await act(async () => {
-    render(<App />, container);
+    render(<App />);
   });
 };
 
@@ -72,37 +61,28 @@ const expectedDate = (date) => {
 test('renders date', async () => {
   await renderApp();
 
-  const header = document.querySelector('.App-header');
   const formatted = expectedDate(todayUrl);
-  expect(header.textContent).toStrictEqual(expect.stringContaining(formatted));
+  expect(screen.getByText(formatted, { exact: false })).toBeInTheDocument();
   expect(calledUrls).toStrictEqual([`/api/select/${todayUrl}`]);
 });
 
 test('renders articles', async () => {
   await renderApp();
 
-  const links = document.querySelectorAll('a');
-  expect(links.length).toBe(selectResponse.length);
-  selectResponse.forEach((res, i) => {
-    const link = links[i];
-    expect(link.textContent).toBe(res.paper);
-    expect(link.getAttribute('href')).toBe(res.paper);
-  });
+  expect(screen.getAllByRole('link').length).toBe(selectResponse.length);
+  expect(screen.getByText('lemonde_title')).toBeInTheDocument();
 });
 
 test.each([
   ['clear', selectResponse],
   ['fetch', []],
 ])('%s', async (code, res) => {
-  mockResponse = res;
-  await act(async () => {
-    render(<App />, container);
-  });
+  await renderApp(res);
 
-  const header = document.querySelector('.App-paper-header');
+  expect(screen.getByText('Le Monde')).toBeInTheDocument();
 
   await act(async () => {
-    header.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+    fireEvent.click(screen.getByText('Le Monde'));
   });
 
   const selectUrl = `/api/select/${todayUrl}`;
@@ -120,20 +100,17 @@ const tomorrow = new Date(today);
 tomorrow.setDate(tomorrow.getDate() + 1);
 
 test.each([
-  ['prev', 0, getDateUrl(yesterday)],
-  ['next', 1, getDateUrl(tomorrow)],
-])('%s', async (name, buttonIndex, url) => {
+  ['◁', getDateUrl(yesterday)],
+  ['▷', getDateUrl(tomorrow)],
+])('%s', async (text, url) => {
   await renderApp();
-  const buttons = document.querySelectorAll('.App-btn');
-  const button = buttons[buttonIndex];
 
   await act(async () => {
-    button.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+    fireEvent.click(screen.getByText(text, { exact: false }));
   });
 
-  const header = document.querySelector('.App-header');
   const formatted = expectedDate(url);
-  expect(header.textContent).toStrictEqual(expect.stringContaining(formatted));
+  expect(screen.getByText(formatted, { exact: false })).toBeInTheDocument();
 
   const urls = [`/api/select/${todayUrl}`, `/api/select/${url}`];
   expect(calledUrls).toStrictEqual(urls);
@@ -150,12 +127,13 @@ test('skip', async () => {
     6: true,
   };
   await renderApp();
-  expect(document.querySelectorAll('.App-paper-header').length).toBe(0);
+  expect(screen.queryByText('Le Monde')).not.toBeInTheDocument();
 });
 
 test('no skip', async () => {
   jest.doMock('./papers');
   papers.lemonde.skip = {};
   await renderApp();
-  expect(document.querySelectorAll('.App-paper-header').length).toBe(1);
+
+  expect(screen.queryByText('Le Monde')).toBeInTheDocument();
 });
