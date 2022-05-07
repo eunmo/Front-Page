@@ -1,19 +1,25 @@
 const fs = require('fs');
 const path = require('path');
 const request = require('supertest');
-const fetch = require('node-fetch');
 const { dml, cleanup } = require('@eunmo/mysql');
 const app = require('../../app');
 
-jest.mock('node-fetch');
-const { Response } = jest.requireActual('node-fetch');
-
-afterAll(async () => {
-  await cleanup();
-});
+let mockResponse = null;
 
 beforeEach(async () => {
   await dml('TRUNCATE TABLE articles;');
+  mockResponse = null;
+  jest.spyOn(global, 'fetch').mockImplementation((url) => (
+    Promise.resolve({
+      ok: true,
+      text: () => Promise.resolve(mockResponse),
+      json: () => Promise.resolve(mockResponse),
+    })
+  ));
+});
+
+afterAll(async () => {
+  await cleanup();
 });
 
 const fixedDate = '20200424';
@@ -35,7 +41,7 @@ const data = {
 const papers = ['lemonde'];
 
 test.each(papers)('fetch %s', async (paper) => {
-  fetch.mockReturnValue(Promise.resolve(new Response(data[paper])));
+  mockResponse = data[paper];
 
   const url = `/api/fetch/${paper}/${fixedDate}`;
   const response = await request(app).get(url);
@@ -62,7 +68,7 @@ test('fetch mock', async () => {
 });
 
 test.each(papers)('fetch then select %s', async (paper) => {
-  fetch.mockReturnValue(Promise.resolve(new Response(data[paper])));
+  mockResponse = data[paper];
 
   let url = `/api/fetch/${paper}/${fixedDate}`;
   let response = await request(app).get(url);
@@ -84,7 +90,7 @@ test.each(papers)('fetch then select %s', async (paper) => {
 });
 
 test.each(papers)('fetch then clear %s', async (paper) => {
-  fetch.mockReturnValue(Promise.resolve(new Response(data[paper])));
+  mockResponse = data[paper];
 
   let url = `/api/fetch/${paper}/${fixedDate}`;
   let response = await request(app).get(url);

@@ -1,5 +1,4 @@
 const express = require('express');
-const fetch = require('node-fetch');
 const { JSDOM } = require('jsdom');
 const { add } = require('../db/articles');
 
