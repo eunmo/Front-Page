@@ -1,3 +1,4 @@
 module.exports = {
-  globals: { fetch, Response, Request }
+  globals: { fetch, Response, Request },
+  rootDir: "server/",
 };
